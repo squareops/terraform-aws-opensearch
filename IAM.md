@@ -1,3 +1,4 @@
+```hcl
 resource "aws_iam_policy" "terraform_pike" {
   name_prefix = "terraform_pike"
   path        = "/"
@@ -53,3 +54,4 @@ resource "aws_iam_policy" "terraform_pike" {
     ]
 })
 }
+```

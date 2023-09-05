@@ -14,7 +14,7 @@ output "domain_endpoint" {
 }
 
 output "dashboard_endpoint" {
-  description = "Domain-specific endpoint for kibana without https scheme"
+  description = "Domain-specific endpoint for opensearch without https scheme"
   value       = module.aws_opensearch.dashboard_endpoint
 }
 

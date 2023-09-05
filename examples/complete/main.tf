@@ -11,13 +11,17 @@ locals {
 
 module "aws_opensearch" {
   source         = "git@github.com:sq-ia/terraform-aws-opensearch.git"
+  opensearch_enabled = true
   domain_name    = "skaf"
   engine_version = "2.7"
   cluster_config = [{
-    dedicated_master_enabled = false
-    dedicated_master_type    = "t3.medium.search"
-    instance_count           = 1
     instance_type            = "t3.medium.search"
+    instance_count           = 1
+#warm nodes depends on dedicated master type nodes. 
+    dedicated_master_enabled = false
+    dedicated_master_type    = "r6g.large.search"
+    dedicated_master_count   = 3
+    warm_enabled             = false
     zone_awareness_enabled   = false
     availability_zone_count  = 1
   }]
@@ -26,7 +30,6 @@ module "aws_opensearch" {
   custom_master_password            = local.custom_master_password
   advanced_security_options_enabled = true
   advanced_security_options = [{
-    internal_user_database_enabled = true
     master_user_options = {
       master_user_name     = "admin"
       master_user_password = local.custom_master_password_enabled ? local.custom_master_password : ""
@@ -34,12 +37,15 @@ module "aws_opensearch" {
   }]
 
   domain_endpoint_options = [{
-    enforce_https = true
+    enforce_https            = true
+    custom_endpoint_enabled  = false
   }]
 
   ebs_enabled = true
   ebs_options = [{
     volume_size = 10
+    volume_type = "gp2"
+    iops        = 3000
   }]
 
   #if you will not pass kms key id it will pick default managed by aws
@@ -48,6 +54,7 @@ module "aws_opensearch" {
     #kms_key_id = "arn:aws:kms:us-east-2:271251951598:key/f1e2f1a9-686a-4e31-a5c8-38623e045e27"
   }]
 
+  cloudwatch_log_enabled = false
   log_publishing_options = {
     es_application_logs = {
       enabled                          = true
@@ -57,7 +64,7 @@ module "aws_opensearch" {
     audit_logs = {
       enabled                          = false
       log_publishing_options_retention = 30
-      cloudwatch_log_group_name        = "audit_logs_dev"
+      cloudwatch_log_group_name        = "os_audit_logs"
     }
   }
 

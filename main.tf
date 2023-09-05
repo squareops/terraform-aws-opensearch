@@ -35,11 +35,34 @@ resource "aws_opensearch_domain" "os_domain" {
     for_each = var.advanced_security_options
     content {
       enabled                        = var.advanced_security_options_enabled
-      internal_user_database_enabled = try(advanced_security_options.value.internal_user_database_enabled, false)
+      internal_user_database_enabled = try(advanced_security_options.value.internal_user_database_enabled, true)
 
       master_user_options {
         master_user_name     = try(advanced_security_options.master_user_options.value.master_user_name, "admin")
         master_user_password = var.custom_master_password_enabled ? var.custom_master_password : random_password.master_password[0].result
+      }
+    }
+  }
+
+  # cluster_config
+  dynamic "cluster_config" {
+    for_each = var.cluster_config
+    content {
+      instance_type            = try(cluster_config.value.instance_type, "t3.medium.search")
+      instance_count           = try(cluster_config.value.instance_count, 1)
+      dedicated_master_enabled = try(cluster_config.value.dedicated_master_enabled, false)
+      dedicated_master_type    = try(cluster_config.value.dedicated_master_type, "r6g.large.search")
+      dedicated_master_count   = try(cluster_config.value.dedicated_master_count, 3)
+      warm_enabled             = try(cluster_config.value.warm_enabled, false)
+      warm_count               = try(cluster_config.value.warm_count, 3)
+      warm_type                = try(cluster_config.value.warm_type, "ultrawarm1.medium.search")
+      zone_awareness_enabled   = try(cluster_config.value.zone_awareness_enabled, false)
+      dynamic "zone_awareness_config" {
+        # cluster_availability_zone_count valid values: 2 or 3.
+        for_each = lookup(cluster_config.value, "zone_awareness_enabled", false) ? [1] : []
+        content {
+          availability_zone_count = lookup(cluster_config.value, "availability_zone_count")
+        }
       }
     }
   }
@@ -84,30 +107,6 @@ resource "aws_opensearch_domain" "os_domain" {
     }
   }
 
-  # cluster_config
-  dynamic "cluster_config" {
-    for_each = var.cluster_config
-    content {
-      instance_type            = try(cluster_config.value.instance_type, "t3.medium.search")
-      instance_count           = try(cluster_config.value.instance_count, 1)
-      dedicated_master_enabled = try(cluster_config.value.dedicated_master_enabled, false)
-      dedicated_master_type    = try(cluster_config.value.dedicated_master_type, "t3.medium.search")
-      dedicated_master_count   = try(cluster_config.value.dedicated_master_count, 1)
-      warm_enabled             = try(cluster_config.value.warm_enabled, false)
-      warm_count               = try(cluster_config.value.warm_count, null)
-      warm_type                = try(cluster_config.value.warm_type, null)
-      zone_awareness_enabled   = try(cluster_config.value.zone_awareness_enabled, false)
-      dynamic "zone_awareness_config" {
-        # cluster_availability_zone_count valid values: 2 or 3.
-        for_each = lookup(cluster_config.value, "zone_awareness_enabled", false) ? [1] : []
-        content {
-          availability_zone_count = lookup(cluster_config.value, "availability_zone_count")
-        }
-      }
-    }
-  }
-
-
   # snapshot_options
   dynamic "snapshot_options" {
     for_each = var.snapshot_options
@@ -119,7 +118,7 @@ resource "aws_opensearch_domain" "os_domain" {
   # log_publishing_options
   dynamic "log_publishing_options" {
     for_each = { for k, v in var.log_publishing_options :
-      k => v if var.enabled && lookup(v, "enabled", false)
+      k => v if var.opensearch_enabled && var.cloudwatch_log_enabled && lookup(v, "enabled", false)
     }
     content {
       log_type                 = upper(log_publishing_options.key)

@@ -5,7 +5,7 @@ variable "opensearch_enabled" {
 }
 
 variable "domain_name" {
-  description = "Name of the domain"
+  description = "Name of the domain name by which opensearch dashboard will be deployed"
   type        = string
 }
 
@@ -34,11 +34,10 @@ variable "custom_master_password" {
 }
 
 variable "cluster_config" {
-  description = "Cluster configuration of the domain"
+  description = "Cluster configuration of the domain like instance_type, instance_count, dedicated_master_enabled, availability_zone_count, etc."
   type        = list(any)
   default     = []
 }
-
 
 variable "advanced_security_options" {
   description = "Options for fine-grained access control"
@@ -105,18 +104,6 @@ variable "log_publishing_options_retention" {
   description = "Retention in days for the created Cloudwatch log group"
   type        = number
   default     = 60
-}
-
-variable "enabled" {
-  description = "Change to false to avoid deploying any AWS ElasticSearch resources"
-  type        = bool
-  default     = true
-}
-
-variable "encrypt_at_rest_kms_key_id" {
-  description = "The KMS key id to encrypt the Elasticsearch domain with. If not specified then it defaults to using the aws/es service KMS key"
-  type        = string
-  default     = "alias/aws/es"
 }
 
 variable "advanced_options" {
