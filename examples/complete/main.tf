@@ -48,7 +48,7 @@ module "aws_opensearch" {
     iops        = 3000
   }]
 
-  #if you will not pass kms key id it will pick default managed by aws
+  #if you will not pass kms_key_id it will pick default key
   encrypt_at_rest = [{
     enabled = true
     #kms_key_id = "arn:aws:kms:us-east-2:271251951598:key/f1e2f1a9-686a-4e31-a5c8-38623e045e27"

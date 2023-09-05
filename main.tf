@@ -25,7 +25,7 @@ data "aws_iam_policy_document" "access_policy" {
 }
 
 
-resource "aws_opensearch_domain" "os_domain" {
+resource "aws_opensearch_domain" "os_domain_configuration" {
   count            = var.opensearch_enabled ? 1 : 0
   domain_name      = var.domain_name
   engine_version   = "OpenSearch_${var.engine_version}"

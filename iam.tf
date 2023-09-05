@@ -35,7 +35,7 @@ CONFIG
 
 
 # Service-linked role to give Amazon ES permissions to access your VPC
-resource "aws_iam_service_linked_role" "es" {
+resource "aws_iam_service_linked_role" "es_service_role" {
   #count            = length(data.aws_iam_role.awsopensearch.arn) > 0 ? 0 : 1
   aws_service_name = "es.amazonaws.com"
   description      = "Service-linked role to give Amazon ES permissions to access your VPC"

@@ -1,11 +1,11 @@
 variable "opensearch_enabled" {
-  description = "Change to false to avoid deploying any AWS ElasticSearch resources"
+  description = "Set to false to prevent the deployment of any AWS OpenSearch resources."
   type        = bool
   default     = true
 }
 
 variable "domain_name" {
-  description = "Name of the domain name by which opensearch dashboard will be deployed"
+  description = "Name of the OpenSearch domain used for deploying the OpenSearch dashboard."
   type        = string
 }
 
@@ -16,98 +16,98 @@ variable "engine_version" {
 }
 
 variable "cloudwatch_log_enabled" {
-  description = "Change to false to avoid deploying any Cloudwatch Logs resources"
+  description = "Set to false to prevent the deployment of CloudWatch Logs resources."
   type        = bool
   default     = true
 }
 
 variable "custom_master_password_enabled" {
-  description = "enable disable option for custom master password "
+  description = "Enable or disable custom master password option."
   type        = bool
   default     = false
 }
 
 variable "custom_master_password" {
-  description = "custom master password value."
+  description = "Specify the custom master password value."
   type        = string
   default     = ""
 }
 
 variable "cluster_config" {
-  description = "Cluster configuration of the domain like instance_type, instance_count, dedicated_master_enabled, availability_zone_count, etc."
+  description = "Configuration options for the OpenSearch cluster, such as instance type, instance count, dedicated master, and availability zones."
   type        = list(any)
   default     = []
 }
 
 variable "advanced_security_options" {
-  description = "Options for fine-grained access control"
+  description = "Enable or disable fine-grained access control options."
   type        = list(any)
   default     = []
 }
 
 variable "advanced_security_options_enabled" {
-  description = "enable disable option for fine-grained access control "
+  description = "Options for fine-grained access control."
   type        = bool
   default     = true
 }
 
 variable "domain_endpoint_options" {
-  description = "Domain endpoint HTTP(S) related options."
+  description = "HTTP(S) related options for the OpenSearch domain endpoint."
   type        = list(any)
   default     = []
 }
 
 variable "ebs_options" {
-  description = "EBS related options, may be required based on chosen instance size"
+  description = "Enable or disable the use of EBS volumes for OpenSearch instances."
   type        = list(any)
   default     = []
 }
 
 variable "ebs_enabled" {
-  description = "whether you want to use ebs volumes or not for the generated instance by opensearch"
+  description = "EBS related options, which may be required based on the chosen instance size."
   type        = bool
   default     = true
 }
 
 variable "encrypt_at_rest" {
-  description = "Encrypt at rest options. Only available for certain instance types"
+  description = "Options for encrypting data at rest. Only available for certain instance types."
   type        = list(any)
   default     = []
 }
 
 variable "node_to_node_encryption" {
-  description = "Node-to-node encryption options"
+  description = "Node-to-node encryption options for OpenSearch."
   type        = list(any)
   default     = []
 }
 
 variable "snapshot_options" {
-  description = "Snapshot related options"
+  description = "Snapshot related options for OpenSearch"
   type        = list(any)
   default     = []
 }
 
 variable "cognito_options" {
-  description = "Options for Amazon Cognito Authentication for opensearch"
+  description = "Options for Amazon Cognito Authentication for OpenSearch."
   type        = list(any)
   default     = []
 }
 
 # log_publishing_options
 variable "log_publishing_options" {
-  description = "Options for publishing opensearch logs to CloudWatch Logs"
+  description = "Options for publishing OpenSearch logs to CloudWatch Logs."
   type        = any
   default     = {}
 }
 
 variable "log_publishing_options_retention" {
-  description = "Retention in days for the created Cloudwatch log group"
+  description = "Retention in days for the created CloudWatch log group for OpenSearch logs."
   type        = number
   default     = 60
 }
 
 variable "advanced_options" {
-  description = "Key-value string pairs to specify advanced configuration options. Note that the values for these configuration options must be strings (wrapped in quotes) or they may be wrong and cause a perpetual diff, causing Terraform to want to recreate your Elasticsearch domain on every apply"
+  description = "Key-value string pairs to specify advanced configuration options for OpenSearch. Note that values must be strings wrapped in quotes."
   type        = map(string)
   default     = {}
 }

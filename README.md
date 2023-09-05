@@ -35,7 +35,7 @@ module "aws_opensearch" {
   cluster_config = [{
     instance_type            = "t3.medium.search"
     instance_count           = 1
-#warm nodes depends on dedicated master type nodes. 
+# warm nodes depends on dedicated master type nodes. 
     dedicated_master_enabled = false
     dedicated_master_type    = "r6g.large.search"
     dedicated_master_count   = 3
@@ -66,7 +66,7 @@ module "aws_opensearch" {
     iops        = 3000
   }]
 
-  #if you will not pass kms key id it will pick default managed by aws
+  # if you will not pass kms key id it will pick default managed by aws
   encrypt_at_rest = [{
     enabled = true
     #kms_key_id = "arn:aws:kms:us-east-2:271251951598:key/f1e2f1a9-686a-4e31-a5c8-38623e045e27"
