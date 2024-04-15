@@ -1,3 +1,21 @@
+variable "additional_aws_tags" {
+  description = "Additional tags to be applied to AWS resources"
+  type        = map(string)
+  default     = {}
+}
+
+variable "aws_region" {
+  description = "Name of the AWS region where VPC  is to be created."
+  default     = ""
+  type        = string
+}
+
+variable "aws_account_id" {
+  description = "Account ID of the AWS Account."
+  default     = "1234567890"
+  type        = string
+}
+
 variable "opensearch_enabled" {
   description = "Set to false to prevent the deployment of any AWS OpenSearch resources."
   type        = bool
@@ -9,7 +27,7 @@ variable "domain_name" {
   type        = string
 }
 
-variable "engine_version" {
+variable "open_search_engine_version" {
   description = "The version of OpenSearch to deploy."
   type        = string
   default     = "2.7"

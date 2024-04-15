@@ -17,7 +17,7 @@ This module is compatible with all the terraform versions which is great news fo
 
 ```hcl
 locals {
-  region                         = "us-east-2"
+  aws_region                         = "us-east-2"
   custom_master_password         = "H2222@sbkQTX"
   custom_master_password_enabled = true
   additional_tags = {
@@ -31,11 +31,11 @@ module "aws_opensearch" {
   source         = "git@github.com:sq-ia/terraform-aws-opensearch.git"
   opensearch_enabled = true
   domain_name    = "skaf"
-  engine_version = "2.7"
+  open_search_engine_version = "2.11"
   cluster_config = [{
     instance_type            = "t3.medium.search"
     instance_count           = 1
-# warm nodes depends on dedicated master type nodes. 
+# warm nodes depends on dedicated master type nodes.
     dedicated_master_enabled = false
     dedicated_master_type    = "r6g.large.search"
     dedicated_master_count   = 3
@@ -69,7 +69,6 @@ module "aws_opensearch" {
   # if you will not pass kms key id it will pick default managed by aws
   encrypt_at_rest = [{
     enabled = true
-    #kms_key_id = "arn:aws:kms:us-east-2:271251951598:key/f1e2f1a9-686a-4e31-a5c8-38623e045e27"
   }]
 
   cloudwatch_log_enabled = false

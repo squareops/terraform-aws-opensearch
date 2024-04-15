@@ -1,4 +1,3 @@
-data "aws_region" "current" {}
 data "aws_caller_identity" "current" {}
 
 resource "random_password" "master_password" {
@@ -20,7 +19,7 @@ data "aws_iam_policy_document" "access_policy" {
     }
 
     actions   = ["es:*"]
-    resources = ["arn:aws:es:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:domain/${var.domain_name}/*"]
+    resources = ["arn:aws:es:${var.aws_region}:${var.aws_account_id}:domain/${var.domain_name}/*"]
   }
 }
 
@@ -28,7 +27,7 @@ data "aws_iam_policy_document" "access_policy" {
 resource "aws_opensearch_domain" "os_domain_configuration" {
   count            = var.opensearch_enabled ? 1 : 0
   domain_name      = var.domain_name
-  engine_version   = "OpenSearch_${var.engine_version}"
+  engine_version   = "OpenSearch_${var.open_search_engine_version}"
   access_policies  = data.aws_iam_policy_document.access_policy.json
   advanced_options = var.advanced_options == null ? {} : var.advanced_options
   dynamic "advanced_security_options" {
