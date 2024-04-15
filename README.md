@@ -35,7 +35,7 @@ module "aws_opensearch" {
   cluster_config = [{
     instance_type            = "t3.medium.search"
     instance_count           = 1
-# warm nodes depends on dedicated master type nodes. 
+# warm nodes depends on dedicated master type nodes.
     dedicated_master_enabled = false
     dedicated_master_type    = "r6g.large.search"
     dedicated_master_count   = 3
