@@ -1,5 +1,5 @@
 locals {
-  region                         = "us-east-2"
+  region                         = ""
   custom_master_password         = "H2222@sbkQTX"
   custom_master_password_enabled = true
   additional_tags = {
@@ -10,7 +10,7 @@ locals {
 }
 
 module "aws_opensearch" {
-  source         = "git@github.com:sq-ia/terraform-aws-opensearch.git"
+  source         = "../../"
   opensearch_enabled = true
   domain_name    = "skaf"
   engine_version = "2.7"
