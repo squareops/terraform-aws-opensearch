@@ -28,7 +28,8 @@ locals {
 }
 
 module "aws_opensearch" {
-  source         = "git@github.com:squareops/terraform-aws-opensearch.git"
+  source         = "squareops/opensearch/aws"
+  version        = "1.0.1"
   opensearch_enabled = true
   domain_name    = "skaf"
   engine_version = "2.7"
