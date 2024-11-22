@@ -25,7 +25,7 @@ This example will be very useful for users who are new to a module and want to q
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_aws_es"></a> [aws\_es](#module\_aws\_es) | ../.. | n/a |
+| <a name="module_aws_es"></a> [aws\_es](#module\_aws\_es) | squareops/opensearch/aws | n/a |
 
 ## Resources
 
